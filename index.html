@@ -3,76 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Countdown</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎁</text></svg>">
+    <title>Countdown Timer</title>
     
-    <!-- Gift Box Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
-    
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@300;700&family=Bungee&family=Orbitron:wght@400;700&family=Lilita+One&family=Pacifico&family=Bebas+Neue&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
-
     <canvas id="confetti-canvas"></canvas>
-    
-    <!-- Decorative Orbs -->
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
 
     <div class="container" id="tilt-card">
-        <h1 id="headline" title="Click me for a surprise!">Countdown</h1>
+        <!-- Maximize Button -->
+        <button id="maximizeBtn" class="control-btn maximize-btn" title="Fullscreen">
+            <i class="fas fa-expand"></i>
+        </button>
+
+        <h1 id="headline">Countdown</h1>
+        <p id="date-display"></p>
         <div class="countdown">
-            <div class="time-box">
-                <span class="number" id="days">00</span>
+            <div class="countdown-item">
+                <div class="time-box">
+                    <span class="number" id="days">00</span>
+                </div>
                 <span class="label">Days</span>
             </div>
-            <div class="time-box">
-                <span class="number" id="hours">00</span>
+            <div class="countdown-item">
+                <div class="time-box">
+                    <span class="number" id="hours">00</span>
+                </div>
                 <span class="label">Hours</span>
             </div>
-            <div class="time-box">
-                <span class="number" id="minutes">00</span>
+            <div class="countdown-item">
+                <div class="time-box">
+                    <span class="number" id="minutes">00</span>
+                </div>
                 <span class="label">Minutes</span>
             </div>
-            <div class="time-box">
-                <span class="number" id="seconds">00</span>
+            <div class="countdown-item">
+                <div class="time-box">
+                    <span class="number" id="seconds">00</span>
+                </div>
                 <span class="label">Seconds</span>
             </div>
         </div>
-        
-        <!-- Wish Me Button moved to JS injection or separate container -->
     </div>
     
-    <!-- Wish Me Button Container (Initially Hidden) -->
     <div class="wish-btn-container" id="wishContainer">
-            <button class="wish-btn" id="openWishModal">
+        <button class="wish-btn" id="openWishModal">
             <i class="fas fa-gift" style="margin-right: 10px;"></i>Wish Me
         </button>
     </div>
 
-    <!-- Wish Modal -->
     <div class="modal-overlay" id="wishModal">
         <div class="modal-content">
             <button class="close-modal" id="closeWishModal"><i class="fas fa-times"></i></button>
-            <h2 class="modal-title">Make a Wish ✨</h2>
-            <textarea class="wish-input" id="wishMessage" placeholder="Type your birthday wish here..."></textarea>
-            <button class="send-btn" id="sendWish">Send Wish <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
+            <h2 class="modal-title">Send me a Wish ✨</h2>
+            <input type="text" id="wishName" class="wish-input" placeholder="Your Good Name">
+            <textarea class="wish-input" id="wishMessage" placeholder="Type your wish here..."></textarea>
+            <button class="send-btn" id="sendWish">Send <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
         </div>
     </div>
 
-    <!-- Custom JS -->
+    <!-- Admin Secret Modal -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeAdminModal"><i class="fas fa-times"></i></button>
+            <h2 class="modal-title" style="color: white;">Secret Panel 🛠️</h2>
+            <p style="color: #ccc; margin-bottom: 15px; font-size: 0.9rem;">Edit Event Settings (Saved Locally)</p>
+            
+            <label for="adminDate" style="display:block; text-align:left; color:#fff; margin-bottom:5px;">Event Date</label>
+            <input type="date" id="adminDate" class="wish-input">
+            
+            <label for="adminTime" style="display:block; text-align:left; color:#fff; margin-bottom:5px;">Event Time</label>
+            <input type="time" id="adminTime" class="wish-input" step="1">
+
+            <label for="adminEventName" style="display:block; text-align:left; color:#fff; margin-bottom:5px;">Counter Name</label>
+            <input type="text" id="adminEventName" class="wish-input" placeholder="e.g. My Birthday">
+
+            <label for="adminEventCele" style="display:block; text-align:left; color:#fff; margin-bottom:5px;">After Counter Text</label>
+            <input type="text" id="adminEventCele" class="wish-input" placeholder="e.g. Happy Birthday!">
+            
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                <button class="send-btn" id="saveAdmin" style="background: rgba(0, 255, 136, 0.2); border-color: #00ff88;">Save</button>
+                <button class="send-btn" id="resetAdmin" style="background: rgba(255, 0, 85, 0.2); border-color: #ff0055;">Reset Default</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
