@@ -28,11 +28,13 @@ input, textarea {
 }
 
 body {
-    background: var(--bg-deep);
-    /* High performance mesh gradient */
+    background-color: var(--bg-deep);
+    /* Dot grid pattern + Mesh gradients */
     background-image: 
+        radial-gradient(rgba(255, 255, 255, 0.05) 0.5px, transparent 1.5px),
         radial-gradient(circle at 15% 50%, rgba(0, 242, 255, 0.08), transparent 25%),
         radial-gradient(circle at 85% 30%, rgba(255, 0, 85, 0.08), transparent 25%);
+    background-size: 24px 24px, 100% 100%, 100% 100%;
     font-family: var(--font-body);
     color: var(--text-primary);
     min-height: 100vh;
@@ -51,19 +53,36 @@ body {
 .container {
     position: relative;
     /* z-index: 20; */
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: #9f00ff08;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     padding: 4rem;
     border-radius: 30px;
-    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
+    /* box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7); */
+    /* box-shadow: 5px 5px 10px -3px rgb(37 32 32 / 47%); */
     text-align: center;
     max-width: 900px;
     width: 90%;
-    transform-style: preserve-3d;
+    /* transform-style: preserve-3d;  <-- Removed to fix backdrop-filter */
     transition: transform 0.1s; /* Kept for your tilt script */
+    isolation: isolate; /* Create new stacking context */
+    animation: heartbeat 1s infinite ease-in-out;
 }
+
+/* .container:hover {
+    animation: none;
+    scale: 1;
+} 
+
+*/
+
+@keyframes heartbeat {
+    0% { scale: 1; }
+    30% { scale: 1.01; }
+    100% { scale: 1; }
+}
+
 
 /* Header */
 h1 {
@@ -75,6 +94,7 @@ h1 {
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     letter-spacing: 0.1em; /* Increased letter spacing for Bebas */
 }
+
 
 #date-display {
     font-family: 'Bebas Neue', cursive;
@@ -116,8 +136,9 @@ h1 {
 
 .time-box:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px -5px rgba(0, 242, 255, 0.15);
-    border-color: rgba(0, 242, 255, 0.3);
+    /* box-shadow: 0 10px 30px -5px rgba(0, 242, 255, 0.15); */
+    border-color: rgba(178, 178, 178, 0.356);
+    box-shadow: -2px -2px 5px 0px #00d9ff33, 2px 2px 5px #d4d80086;
 }
 
 .number {
@@ -148,11 +169,12 @@ h1 {
 
 /* --- Mobile Fixes --- */
 @media (max-width: 768px) {
-    .container { padding: 2rem 1.5rem; width: 95%; }
+    .container { padding: 2rem 0.6rem; width: 93%; }
     .countdown { gap: 0.8rem; }
     .time-box { padding: 1.5rem 0.2rem; }
     .number { font-size: clamp(3.5rem, 10vw, 5.5rem); }
     .label { font-size: 0.6rem; letter-spacing: 1px; }
+   
 }
 
 @media (max-width: 480px) {
@@ -211,7 +233,8 @@ h1 {
 /* --- Wish Button --- */
 .wish-btn-container {
     display: none;
-    
+    /* backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px); */
     position: fixed; bottom: 40px; left: 50%;
     transform: translateX(-50%);
     z-index: 100;
@@ -219,15 +242,15 @@ h1 {
 
 .wish-btn-container.visible {
     display: block;
-    animation: fadeInUp 0.6s ease forwards;
+    animation: scale-in 0.6s ease forwards;
 }
 
 .wish-btn {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    color: #fff;
-    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.041);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: rgba(255, 255, 255, 0.8); /* Slightly brighter than max button for readability */
+    border: 1px solid rgba(255, 255, 255, 0.199);
     padding: 1rem 1rem;
     border-radius: 30px; /* Match container border-radius */
     font-family: 'Bebas Neue', cursive; /* Match headline font */
@@ -244,30 +267,33 @@ h1 {
 .wish-btn:hover { 
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(0, 242, 255, 0.3);
-    box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.15);
 }
 
-@keyframes fadeInUp {
+/* @keyframes fadeInUp {
     from { opacity: 0; transform: translate(-50%, 20px); }
     to { opacity: 1; transform: translate(-50%, 0); }
-}
+} */
 
 /* --- Modal --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(25, 26, 26, 0.614);
     backdrop-filter: blur(10px);
     display: flex; justify-content: center; align-items: center;
     z-index: 1000;
     opacity: 0; visibility: hidden;
+    /* opacity: 1; visibility: visible; */
+
     transition: 0.3s;
 }
 
 .modal-overlay.active { opacity: 1; visibility: visible; }
 
 .modal-content {
-    background: #111;
+    background: #111111f0;
+    backdrop-filter: blur(5px);
     border: 1px solid #333;
     padding: 2.5rem;
     border-radius: 24px;
@@ -282,8 +308,9 @@ h1 {
 .modal-title { color: #fff; font-family: 'Bebas Neue', cursive; letter-spacing: 2px; word-spacing: 2px ; margin-bottom: 1.5rem; }
 
 .wish-input {
+    resize: none;
     width: 100%;
-    background: #1a1a1a;
+    background: #27272789;
     border: 1px solid #333;
     border-radius: 12px;
     padding: 1rem;
@@ -310,6 +337,7 @@ h1 {
     transition: all 0.3s ease;
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
+
 
 .send-btn:hover { 
     background: rgba(255, 255, 255, 0.05);
@@ -356,15 +384,18 @@ h1 {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Floating Animation for End Card */
+
 @keyframes floating {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 .floating-card {
-    animation: floating 4s ease-in-out infinite;
+    animation: floating 2s ease-in-out infinite;
 }
 
 /* Confirmation Toast */
@@ -407,12 +438,17 @@ h1 {
 
 /* --- Control Buttons --- */
 .control-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.7);
+    position: fixed;
+    /* Start position (approx top-right of center card or screen corner) */
+    /* top: 20px; right: 20px; (User had this relative to card) */
+    /* Let's put it top-right of screen for now, which is safer for 'fixed' */
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.041);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.199);
+    color: rgba(255, 255, 255, 0.297);
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -422,6 +458,9 @@ h1 {
     align-items: center;
     transition: 0.3s;
     z-index: 100;
+    will-change: transform, backdrop-filter;
+    /* Force GPU for smoother blur */
+    transform: translateZ(0); 
 }
 
 .control-btn:hover {
@@ -439,10 +478,12 @@ body.maximize-mode .container {
     backdrop-filter: none;
     max-width: none;
     width: 100%;
+    transform: none !important; /* Removes tilt effect */
+    animation: none; /* Disable heartbeat in maximize mode */
 }
 
 /* Hide non-essential elements */
-body.maximize-mode h1, 
+body.maximize-mode #headline, 
 body.maximize-mode #date-display,
 body.maximize-mode .label {
     display: none; 
@@ -499,4 +540,190 @@ body.maximize-mode .control-btn {
     background: rgba(0, 0, 0, 0.5); /* More contrast */
 }
 
+/* --- Celebration Screens Styles (New) --- */
+.celebration-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    user-select: none;
+    -webkit-user-select: none;
+}
 
+.celebration-date {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.1em;
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: all 0.5s ease; /* For smooth hiding */
+    opacity: 1;
+    max-height: 50px; /* Constrain height for transition */
+}
+
+.celebration-text {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(3.5rem, 10vw, 6rem);
+    font-weight: 800;
+    margin-bottom: 0;
+    color: #fff;
+    letter-spacing: 0.05em;
+    word-spacing: 0.1em;
+    min-height: 1.2em;
+    line-height: 1.0;
+    text-align: center;
+    width: 100%;
+    padding: 0 10px;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth movement */
+}
+
+/* --- Maximize Mode Logic for Celebration --- */
+/* Hide the date smoothly */
+body.maximize-mode .celebration-date {
+    opacity: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+/* Move the text up smoothly */
+body.maximize-mode .celebration-text {
+    transform: translateY(-20vh) scale(1.2); /* Move up and slightly larger */
+}
+
+/* Ensure container doesn't block clicks in max mode if needed, though previously we removed styles */
+body.maximize-mode .container.floating-card {
+   animation: floating 2s ease-in-out infinite; /* Enable floating */
+}
+
+/* Don't stop floating on hover in maximize mode */
+body.maximize-mode .container.floating-card:hover {
+    animation-play-state: running; 
+    scale: 1; /* Keep scale override if needed, or remove to allow float scale? User said "dont stop", implying play-state */
+}
+
+
+
+/* --- Mobile Portrait Maximize Fix --- */
+@media (max-width: 768px) {
+    body { overflow-y: auto; }
+    body.maximize-mode .celebration-text {
+        /* Remove scale up, use viewport width for sizing to ensure fit */
+        transform: translateY(-15vh) scale(1); 
+        font-size: 14vw; /* Responsive sizing that fits width */
+        padding: 0 10px;
+        width: 100%;
+        margin: 0 auto;
+    }
+    .wish-btn { padding: 0.7rem 1rem; font-size: 1rem; }
+    
+    /* Ensure container stays centered */
+    body.maximize-mode .celebration-wrapper {
+        width: 100%;
+        overflow: visible; /* Allow text to show */
+    }
+}
+
+/* --- Landscape Optimization (Refined) --- */
+@media (max-height: 400px) and (orientation: landscape) {
+    body { overflow-y: auto; }
+    .container {
+        padding: 0.5rem 1rem;
+        width: 90%; 
+        max-width: 750px;
+        height: 90vh; /* Fit within screen */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0; /* Minimal gap */
+        transform: none !important; /* REMOVE TILT ANIMATION */
+        will-change: auto; /* optimization */
+    }
+    .wish-btn {
+        margin-bottom: 1rem;
+    }
+    
+    /* Shrink Title */
+    h1 {
+        font-size: 2.8rem; 
+        /* margin-bottom: 0.1rem; */
+        margin-bottom: 0.2rem;
+        margin-top: -2rem;
+    }
+
+    /* Shrink Date */
+    #date-display {
+        font-size: 1.4rem;
+        margin-top: -0.7rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Compact Grid */
+    .countdown {
+        gap: 1rem;
+        margin-bottom: 0;
+        width: 100%;
+    }
+    
+    .countdown-item {
+        gap: 0.2rem;
+    }
+    
+    .time-box {
+        padding: 0.2rem;
+        border-radius: 30px;
+        height: auto;
+    }
+
+    .number {
+        font-size: 30vh; /* Responsive height-based size (Larger) */
+        line-height: 1;
+        padding-top: 5px;
+    }
+
+    .label {
+        font-size: 0.7rem;
+        margin-top: 5px;
+    }
+    
+    /* Adjust Wish Button */
+    .wish-btn-container {
+        bottom: 10px;
+        transform: translateX(-50%) scale(0.8);
+    }
+
+    /* Fix Celebration Text in Landscape Maximize */
+    body.maximize-mode .celebration-text {
+        transform: translateY(-2vh) scale(1) !important; /* Reset the big move-up */
+        /* font-size: 16vh !important; Fit based on height */
+        line-height: 1;
+        width: 100%;
+    }
+    
+    /* Ensure date is hidden (it usually is by maximize-mode, but just in case) */
+    body.maximize-mode .celebration-date {
+        display: none;
+    }
+}
+
+/* --- Pulse Animation for Final 10 Seconds --- */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(241, 57, 7, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 6px rgba(241, 57, 7, 0.7);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(241, 57, 7, 0.4);
+    }
+}
