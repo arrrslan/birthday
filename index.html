@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎁</text></svg>">
-    <title>Countdown Timer</title>
+    <meta name="theme-color" content="#ff0055">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>">
+    <title>Countdown</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,9 +22,7 @@
 
     <div class="container" id="tilt-card">
         <!-- Maximize Button -->
-        <button id="maximizeBtn" class="control-btn maximize-btn" title="Fullscreen">
-            <i class="fas fa-expand"></i>
-        </button>
+
 
         <h1 id="headline">Countdown</h1>
         <p id="date-display"></p>
@@ -53,6 +52,7 @@
                 <span class="label">Seconds</span>
             </div>
         </div>
+        
     </div>
     
     <div class="wish-btn-container" id="wishContainer">
@@ -61,12 +61,17 @@
         </button>
     </div>
 
+    <!-- Maximize Button (Moved to body) -->
+    <button id="maximizeBtn" class="control-btn maximize-btn">
+        <i class="fas fa-expand"></i>
+    </button>
+
     <div class="modal-overlay" id="wishModal">
         <div class="modal-content">
             <button class="close-modal" id="closeWishModal"><i class="fas fa-times"></i></button>
             <h2 class="modal-title">Send me a Wish ✨</h2>
             <input type="text" id="wishName" class="wish-input" placeholder="Your Good Name">
-            <textarea class="wish-input" id="wishMessage" placeholder="Type your wish here..."></textarea>
+            <textarea class="wish-input" rows="4"  id="wishMessage" placeholder="Type your wish here..."></textarea>
             <button class="send-btn" id="sendWish">Send <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
         </div>
     </div>
@@ -98,5 +103,6 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="max.js"></script> 
 </body>
 </html>
