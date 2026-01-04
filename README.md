@@ -1,16 +1,17 @@
-# ⏳ Event Countdown Timer
+# ⏳ Event Countdown
 
 A visually stunning, neon-themed countdown timer web application with advanced customization features, 3D tilt effects, and a secret admin panel.
 
-### 🔗 [View Deployment](http://arrrslan.github.io/countdown/)
+### 🔗 [View ](http://arrrslan.github.io/countdown/)
 
 ## ✨ Features
 
 ### 🎨 Visual & UI
 -   **Neon Glassmorphism Design**: High-end dark UI with glass blur effects and neon accents.
--   **3D Tilt Effect**: Interactive card that tilts with mouse movement.
--   **Responsive Layout**: Fully adaptive design that looks great on Desktop, Mobile, and Landscape orientations.
--   **Animations**: Floating cards, confetti explosions, and smooth transitions.
+-   **3D Tilt Effect**: Interactive card that tilts with mouse movement (Desktop).
+-   **Responsive Layout**: Fully adaptive design with optimized mobile touch interactions (subtle glow & feedback).
+-   **Animations**: Heartbeat pulsing, floating cards, confetti explosions, and smooth transitions.
+-   **Custom Favicon**: White monochrome gift box icon.
 
 ### ⚙️ Functionality
 -   **Dynamic Countdown**: Accurate Days/Hours/Minutes/Seconds timer.
@@ -38,16 +39,22 @@ There are two ways to open the hidden configuration menu:
 2.  **Wish Hack**: Wait for the timer to end (or set it to the past), click "Send Wish", leave the **Name** empty, and type `letmeedit` in the message box.
 
 ### 3. Maximize View
-Click the **Expand Icon** (diagonal arrows) in the top-right corner of the card to enter "Big Mode". This hides the title and date, enlarging the numbers to fill the entire screen. Great for using an old phone as a dedicated countdown clock!
+Click the **Expand Icon** (diagonal arrows) or press **F** to enter "Big Mode". This hides the title and date, enlarging the numbers to fill the entire screen.
+
+### 4. Zombie Mode (Secret)
+Press **X** on your keyboard to toggle Zombie Mode on the Maximize button.
+-   **Run Away**: By default, the button flees from your cursor.
+-   **Chase**: In Zombie Mode, the button turns into a skull and chases your cursor!
 
 ## 💻 Tech Stack
--   **HTML5**: Semantic structure and input controls.
--   **CSS3**: Variables, Flexbox/Grid, Animations, Media Queries.
--   **JavaScript (ES6+)**: Logic for timer, DOM manipulation, `localStorage` persistence, and confetti canvas.
--   **Libraries**:
-    -   `canvas-confetti`: For the celebration effects.
-    -   FontAwesome: For UI icons.
+-   **HTML5**: Semantic structure.
+-   **CSS3**: Variables, Flexbox/Grid, Animations (Heartbeat, Pulse, Floating), Media Queries.
+-   **JavaScript (ES6+)**: 
+    -   Custom physics engine for "Zombie" button behavior.
+    -   Custom Canvas-based confetti engine (no external libraries).
+    -   `localStorage` persistence.
     -   Google Fonts: 'Bebas Neue' and 'Inter'.
+    -   FontAwesome: For UI icons.
 
 ## 📂 Installation
 No build process is required! This is a vanilla web project.
