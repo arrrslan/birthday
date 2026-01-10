@@ -80,24 +80,24 @@
     <div class="modal-overlay" id="adminModal">
         <div class="modal-content">
             <button class="close-modal" id="closeAdminModal"><i class="fas fa-times"></i></button>
-            <h2 class="modal-title" style="color: white;">Secret Panel 🛠️</h2>
-            <p style="color: #ccc; margin-bottom: 15px; font-size: 0.9rem;">Edit Event Settings (Saved Locally)</p>
+            <h2 class="modal-title">Secret Panel 🛠️</h2>
+            <p class="modal-subtitle">Edit Event Settings (Saved Locally)</p>
             
-            <label for="adminDate" style="display:block; text-align:left; color:#fff; margin-bottom:5px;">Event Date</label>
+            <label for="adminDate" class="admin-label">Event Date</label>
             <input type="date" id="adminDate" class="wish-input">
             
-            <label for="adminTime" style="display:block; text-align:left; color:#fff; margin-bottom:5px;">Event Time</label>
+            <label for="adminTime" class="admin-label">Event Time</label>
             <input type="time" id="adminTime" class="wish-input" step="1">
 
-            <label for="adminEventName" style="display:block; text-align:left; color:#fff; margin-bottom:5px;">Counter Name</label>
+            <label for="adminEventName" class="admin-label">Counter Name</label>
             <input type="text" id="adminEventName" class="wish-input" placeholder="e.g. My Birthday">
 
-            <label for="adminEventCele" style="display:block; text-align:left; color:#fff; margin-bottom:5px;">After Counter Text</label>
+            <label for="adminEventCele" class="admin-label">After Counter Text</label>
             <input type="text" id="adminEventCele" class="wish-input" placeholder="e.g. Happy Birthday!">
             
             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
-                <button class="send-btn" id="saveAdmin" style="background: rgba(0, 255, 136, 0.2); border-color: #00ff88;">Save</button>
-                <button class="send-btn" id="resetAdmin" style="background: rgba(255, 0, 85, 0.2); border-color: #ff0055;">Reset Default</button>
+                <button class="send-btn" id="saveAdmin">Save</button>
+                <button class="send-btn" id="resetAdmin">Reset Default</button>
             </div>
         </div>
     </div>
