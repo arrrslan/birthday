@@ -708,7 +708,10 @@
                  localStorage.setItem('theme', isLight ? 'light' : 'dark');
                  
                  // Haptic Feedback
-                 if (navigator.vibrate) navigator.vibrate(50);
+                 // Disable on Mobile (<= 768px)
+                 if (window.innerWidth > 768 && navigator.vibrate) {
+                     navigator.vibrate(50);
+                 }
                  
                  // Visual Feedback
                  showToast(isLight ? "Light Mode" : "Dark Mode", "default");
@@ -913,7 +916,16 @@
              if (window.innerWidth <= 768 && !document.body.classList.contains('maximize-mode')) {
                  // Hover up (scale 1.02) + Faded Low Glow
                  tiltCard.style.transform = 'translateY(-6px)';
-                 tiltCard.style.border = '3px solid rgba(255, 255, 255, 0.1)';
+                 
+                 // Conditional Border Color
+                 if (document.body.classList.contains('light-mode')) {
+                     // Maroon for Light Mode (Rose 900)
+                     tiltCard.style.border = '3px solid rgba(136, 19, 54, 0.88)'; 
+                 } else {
+                     // White/Glass for Dark Mode
+                     tiltCard.style.border = '3px solid rgba(255, 255, 255, 0.1)';
+                 }
+                 
                  tiltCard.style.transition = 'all 0.2s ease-out';
              }
         }, {passive: true});
