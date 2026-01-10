@@ -47,6 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Toggle Chase Mode
     document.addEventListener('keydown', (e) => {
+        if (window.innerWidth <= 768) return; // Disable on Mobile
+
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         if (e.key.toLowerCase() === 'x') {
             isChasing = !isChasing;
@@ -71,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Track Mouse
     window.addEventListener('mousemove', (e) => {
+        if (window.innerWidth <= 768) return; // Disable on Mobile
         if (document.body.classList.contains('maximize-mode')) return;
         
         // If we were returning home and user moved mouse, WAKE UP smoothly
@@ -96,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function update() {
         requestAnimationFrame(update);
 
+        if (window.innerWidth <= 768) return; // Disable on Mobile
         if (document.body.classList.contains('maximize-mode')) return;
         if (isReturning) return; // Skip physics if resetting
         
