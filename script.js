@@ -18,6 +18,32 @@
         const confettiDelay = 7000;              // Delay between pops in ms
         
         // --------------------------------------------------------------
+        // Auto-Update Date (If > 24 hours passed)
+        // --------------------------------------------------------------
+        let tempDateObj = new Date(`${eventDate} ${eventTime}`);
+        const nowTs = new Date().getTime();
+        const oneDayMs = 24 * 60 * 60 * 1000;
+
+        // If current time is > (Event Time + 24 Hours), add 1 year
+        // We use a while loop to catch up if multiple years passed
+        if (!isNaN(tempDateObj.getTime())) { // Safety check
+            let updated = false;
+            while (nowTs > tempDateObj.getTime() + oneDayMs) {
+                tempDateObj.setFullYear(tempDateObj.getFullYear() + 1);
+                updated = true;
+            }
+            
+            if (updated) {
+                eventDate = tempDateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                localStorage.setItem('eventDate', eventDate);
+                
+                // Optional: Show a subtle toast that date was updated? 
+                // showToast(`Target updated to ${eventDate}`, "default"); // Might not exist yet in DOM exec order
+                // Better to just let it update silently.
+            }
+        }
+
+        // --------------------------------------------------------------
         // Emojies: 🎉🥳🎊✨🎁🎈🎂
 
         // Update Headline
@@ -53,6 +79,14 @@
             updateSegment("hours", formatTime(hours));
             updateSegment("minutes", formatTime(minutes));
             updateSegment("seconds", formatTime(seconds));
+
+            // Dynamic Font Sizing for 3-digit days (Global Reduction)
+            const countdownEl = document.querySelector('.countdown');
+            if (days >= 100) {
+                countdownEl.classList.add("long-mode");
+            } else {
+                countdownEl.classList.remove("long-mode");
+            }
 
 
 
@@ -256,7 +290,7 @@
         let animationId;
 
         
-        // Google's vibrant confetti colors
+        // Google's vibrant confetti colors (Dark Mode Default)
         const confettiColors = [
             '#4285F4', // Google Blue
             '#DB4437', // Google Red
@@ -268,6 +302,20 @@
             '#E91E63', // Pink
             '#FDD835', // Bright Yellow
             '#7CB342', // Light Green
+        ];
+
+        // High Contrast / Vibrant Colors for Light Mode
+        const lightModeConfettiColors = [
+            '#D50000', // Vivid Red
+            '#2962FF', // Strong Blue
+            '#00C853', // Vivid Green
+            '#AA00FF', // Vivid Purple
+            '#FFD600', // Vivid Yellow
+            '#FF6D00', // Deep Orange
+            '#C2185B', // Dark Pink
+            '#304FFE', // Indigo
+            '#00BFA5', // Teal
+            '#3E2723', // Dark Brown (Contrast)
         ];
 
         canvas.width = window.innerWidth;
@@ -289,7 +337,10 @@
                 this.y = -20; // Start above screen
                 this.w = Math.random() * 10 + 6; // Width
                 this.h = Math.random() * 6 + 3; // Height (rectangles/sheets)
-                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                
+                // Theme-aware Color Selection
+                const colors = document.body.classList.contains('light-mode') ? lightModeConfettiColors : confettiColors;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
                 
                 // Faster falling physics
                 this.vx = Math.random() * 1 - 0.5; // Horizontal drift
@@ -310,7 +361,7 @@
                 
                 // Air resistance for natural floating
                 this.airResistance = 0.96; // Very low resistance for far travel
-                this.gravity = 0.15; // Faster gravity
+                this.gravity = 0.25; // Faster gravity
                 
                 // Opacity for depth effect
                 this.opacity = Math.random() * 0.3 + 0.7;
@@ -768,6 +819,10 @@
         
         function showConfirmToast(message, onConfirm) {
             const container = document.getElementById('toastContainer');
+            
+            // Prevent Stacking: Clear existing toasts/confirms
+            container.innerHTML = '';
+
             const toast = document.createElement('div');
             toast.className = 'toast confirm';
             
@@ -915,7 +970,7 @@
         tiltCard.addEventListener('touchstart', () => {
              if (window.innerWidth <= 768 && !document.body.classList.contains('maximize-mode')) {
                  // Hover up (scale 1.02) + Faded Low Glow
-                 tiltCard.style.transform = 'translateY(-6px)';
+                //  tiltCard.style.transform = 'translateY(-6px)';
                  
                  // Conditional Border Color
                  if (document.body.classList.contains('light-mode')) {
