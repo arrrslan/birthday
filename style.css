@@ -364,12 +364,20 @@ h1 {
 }
 
 .toast {
-    background: #1a1a1a; border: 1px solid #333;
+    /* Matched to .wish-btn style for Dark Mode */
+    background: rgba(255, 255, 255, 0.041);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.199);
+    color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    
     padding: 12px 24px; border-radius: 50px;
-    color: #fff; font-family: var(--font-body);
+    font-family: var(--font-body);
     margin-bottom: 10px;
     opacity: 0; transform: translateY(-20px);
     transition: 0.3s;
+    /* letter-spacing: 0.5px; */
 }
 
 .toast.show { opacity: 1; transform: translateY(0); }
@@ -472,10 +480,10 @@ h1 {
 /* --- Maximize Mode Logic --- */
 body.maximize-mode .container {
     padding: 0;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    backdrop-filter: none;
+    background: transparent !important; /* Force transparent over light mode */
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
     max-width: none;
     width: 100%;
     transform: none !important; /* Removes tilt effect */
@@ -524,11 +532,11 @@ body.maximize-mode .countdown-item:not(:last-child)::after {
     content: ":";
     position: absolute;
     right: -2vw;
-    top: 50%;
+    top: 51%;
     transform: translateY(-58%); /* Visual adjust for baseline */
     font-size: 14vw;
     font-family: var(--font-time);
-    color: rgba(255, 255, 255, 0.8);
+    color: currentColor; /* Matches text color (Dark in light mode, White in dark mode) */
     z-index: 10;
     line-height: 1;
 }
@@ -727,3 +735,156 @@ body.maximize-mode .container.floating-card:hover {
         box-shadow: 0 0 0 rgba(241, 57, 7, 0.4);
     }
 }
+
+/* --- Light Mode (Maroon & Zinc Theme) --- */
+body.light-mode {
+    --bg-deep: #fdf2f4; /* Very Pale Rose/Maroon Tint */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(190, 18, 60, 0.2); /* Subtle Maroon Border */
+    --text-primary: #7e0024; /* Rose 950 (Matched to Number) */
+    --text-secondary: #881337; /* Rose 900 */
+    --neon-primary: #be123c; /* Rose 700 (Maroon-ish) */
+    --neon-secondary: #f43f5e; /* Rose 500 */
+    
+    background-color: var(--bg-deep);
+    
+    /* Elegant Maroon/Zinc Mesh */
+    background-image: 
+        radial-gradient(rgba(136, 19, 55, 0.15) 0.5px, transparent 1.5px), /* Maroon Dots */
+        radial-gradient(at 0% 0%, rgba(190, 18, 60, 0.08) 0, transparent 50%), 
+        radial-gradient(at 100% 100%, rgba(82, 82, 91, 0.1) 0, transparent 50%); /* Zinc Shade */
+    
+    background-size: 20px 20px, 100% 100%, 100% 100%;
+        
+    color: var(--text-primary);
+}
+
+/* Light Mode Container */
+body.light-mode .container {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 241, 242, 0.7));
+    border: 1px solid rgba(190, 18, 60, 0.15);
+    box-shadow: 
+        0 8px 32px 0 rgba(136, 19, 55, 0.05),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+body.light-mode h1 {
+    color: #881337; /* Deep Maroon */
+    text-shadow: none;
+    -webkit-text-fill-color: initial;
+    filter: none;
+}
+
+/* Time Boxes - Maroon Accent */
+body.light-mode .time-box {
+    background: #fff1f2; /* Rose 50 */
+    border: 1px solid #fecdd3; /* Rose 200 */
+    box-shadow: 
+        0 4px 6px -1px rgba(136, 19, 55, 0.05),
+        inset 0 2px 4px rgba(255, 255, 255, 1);
+    color: var(--text-primary);
+}
+
+body.light-mode .time-box:hover {
+    transform: translateY(-2px);
+    background: #ffe4e6; /* Rose 100 */
+    border-color: #be123c;
+    box-shadow: 0 10px 15px -3px rgba(190, 18, 60, 0.15);
+}
+
+/* HIDE Time-Box Background in Maximize Mode (Global) */
+body.maximize-mode .time-box {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+body.light-mode .number {
+    color: var(--text-primary); /* Use variable to ensure match with colons (currentColor) */
+    background: none;
+    -webkit-text-fill-color: initial;
+    text-shadow: none;
+}
+
+body.light-mode .label {
+    color: #9f1239; /* Rose 800 */
+    font-weight: 700;
+}
+
+/* Buttons */
+body.light-mode .wish-btn,
+body.light-mode .control-btn {
+    background: #fff0f5; /* Lavender Blush */
+    border: 1px solid #fda4af; /* Rose 300 */
+    color: #881337; /* Rose 900 */
+    box-shadow: 0 2px 4px rgba(136, 19, 55, 0.05);
+}
+
+body.light-mode .wish-btn:hover,
+body.light-mode .control-btn:hover {
+    background: #ffe4e6;
+    border-color: #be123c;
+    color: #881337;
+    box-shadow: 0 4px 6px -1px rgba(190, 18, 60, 0.2);
+    transform: translateY(-1px);
+}
+
+body.light-mode .modal-content {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    box-shadow: 0 20px 25px -5px rgba(136, 19, 55, 0.1);
+}
+
+body.light-mode .modal-title {
+    color: #881337;
+}
+
+body.light-mode .wish-input {
+    background: #fff0f5;
+    border: 1px solid #fecdd3;
+    color: #881337;
+    box-shadow: inset 0 1px 2px rgba(136, 19, 55, 0.05);
+}
+
+body.light-mode .wish-input:focus {
+    background: #fff;
+    border-color: #be123c;
+    box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.15);
+}
+
+body.light-mode .send-btn { 
+    background: var(--text-primary); /* Rose 700 */
+    color: #fff1f2;
+    box-shadow: 0 4px 6px -1px rgba(190, 18, 60, 0.4);
+    border: none;
+}
+
+body.light-mode .send-btn:hover {
+    background: #9f1239; /* Rose 800 */
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(190, 18, 60, 0.5);
+}
+
+body.light-mode .celebration-text {
+    background-color: var(--text-primary);
+    /* background: linear-gradient(to right, #be123c, #881337); */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: none;
+}
+
+body.light-mode .celebration-date {
+    color: var(--text-secondary); /* Ensure visibility in light mode */
+}
+
+body.light-mode .toast {
+    background: #fff1f2;
+    color: #881337;
+    border: 1px solid #fecdd3;
+    box-shadow: 0 10px 15px -3px rgba(136, 19, 55, 0.1);
+}
+
