@@ -179,8 +179,14 @@ h1 {
 
 @media (max-width: 480px) {
     .countdown { grid-template-columns: repeat(4, 1fr); gap: 0.5rem; }
-    .time-box { padding: 0.5rem 0.1rem; }
+    .time-box { 
+        padding: 0.5rem 0.1rem; 
+        min-height: 5.5rem; /* Ensure consistent height even if font shrinks */
+    }
     .number { font-size: 3.8rem; }
+    
+    /* Shrink ALL numbers if days >= 100 to maintain uniformity */
+    .countdown.long-mode .number { font-size: clamp(2rem, 11vw, 3.2rem); }
     
     /* Disable Hover Animation on Mobile */
     .time-box:hover {
@@ -313,7 +319,14 @@ h1 {
 
 .modal-overlay.active .modal-content { transform: scale(1); }
 
-.modal-title { color: #fff; font-family: 'Bebas Neue', cursive; letter-spacing: 2px; word-spacing: 2px ; margin-bottom: 1.5rem; }
+.modal-title { 
+    color: transparent;
+    text-shadow: 0 0 0 #fff; /* Default White for Dark Mode */
+    font-family: 'Bebas Neue', cursive; 
+    letter-spacing: 2px; 
+    word-spacing: 2px; 
+    margin-bottom: 1.5rem; 
+}
 
 .wish-input {
     resize: none;
@@ -509,6 +522,28 @@ body.light-mode #resetAdmin {
 }
 .toast-btn.yes:hover { background: rgba(255, 0, 85, 0.4); }
 
+/* Light Mode Overrides for Confirmation Toast Buttons */
+body.light-mode .toast-btn {
+    border-color: rgba(0,0,0,0.2);
+    color: #333; /* Darker default text */
+}
+
+body.light-mode .toast-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+body.light-mode .toast-btn.no {
+    color: #000; /* Specifically Black as requested */
+    border-color: #000;
+}
+
+body.light-mode .toast-btn.yes {
+    /* Keep Yes button distinct but readable */
+    background: #be123c; 
+    color: white;
+    border-color: #be123c;
+}
+
 /* --- Control Buttons --- */
 .control-btn {
     position: fixed;
@@ -563,18 +598,21 @@ body.maximize-mode .label {
 }
 
 /* Make countdown full screen */
+/* Make countdown full screen */
+/* Make countdown full screen */
 body.maximize-mode .countdown {
     margin: 0;
-    gap: 0;
+    gap: 4vw; /* User requested 4 gap */
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Pack in center */
     align-items: center;
 }
 
 body.maximize-mode .countdown-item {
-    flex: 1;
+    flex: 1; /* Stretch to fill equally */
+    width: auto;
     height: 100%;
     justify-content: center;
     position: relative; /* For colon positioning */
@@ -588,22 +626,39 @@ body.maximize-mode .time-box {
 }
 
 body.maximize-mode .number {
-    font-size: 20vw !important; /* Reduced to fit colons */
+    font-size: 20vw !important; /* Optimized for 4vw gap */
     height: auto;
+    line-height: 1.1; /* Fix cropping */
+    padding-top: 0; 
 }
 
 /* Colons for Maximize Mode */
 body.maximize-mode .countdown-item:not(:last-child)::after {
     content: ":";
     position: absolute;
-    right: -2vw;
-    top: 51%;
-    transform: translateY(-58%); /* Visual adjust for baseline */
+    right: -2vw; /* Center in 4vw gap */
+    top: 50%; 
+    transform: translate(50%, -55%); /* Center on the seam */
     font-size: 14vw;
     font-family: var(--font-time);
-    color: currentColor; /* Matches text color (Dark in light mode, White in dark mode) */
+    color: currentColor; 
     z-index: 10;
     line-height: 1;
+    pointer-events: none; 
+}
+
+/* Global Safety fallback for 3-Digit Days (Desktop) */
+body.maximize-mode .countdown.long-mode .number {
+    font-size: 18.5vw !important; /* Shrink to fit 3 digits comfortably */
+}
+body.maximize-mode .countdown.long-mode {
+     gap: 3vw; /* Balance between 4vw preference and space constraints */
+}
+body.maximize-mode .countdown.long-mode .countdown-item {
+    flex: auto; /* Allow items to take natural width (needed for 370 vs 06) */
+}
+body.maximize-mode .countdown.long-mode .countdown-item:not(:last-child)::after {
+    right: -1.5vw; /* Perfectly centered in 3vw gap */
 }
 
 /* Adjust button position in Maximize Mode */
@@ -700,6 +755,29 @@ body.maximize-mode .container.floating-card:hover {
     body.maximize-mode .celebration-wrapper {
         width: 100%;
         overflow: visible; /* Allow text to show */
+    }
+
+    /* MAXIMIZE MODE MOBILE - Push to edges with cleaner spacing */
+    body.maximize-mode .countdown {
+        gap: 1vw !important; /* Visible gap everywhere */
+    }
+    body.maximize-mode .number {
+        font-size: 23vw !important; /* Large usage of space but clean for 2 digits */
+        line-height: 0.9 !important;
+        letter-spacing: -1px !important;
+    }
+    body.maximize-mode .countdown-item:not(:last-child)::after {
+        right: -0.5vw !important; /* Center in 1vw gap */
+        font-size: 18vw !important;
+        transform: translate(50%, -55%);
+    }
+
+    /* Safety fallback for 3-Digit Days */
+    body.maximize-mode .countdown.long-mode .number {
+        font-size: 21vw !important; /* Proper size for 3 digits on mobile */
+    }
+    body.maximize-mode .countdown.long-mode {
+         gap: 1vw !important; /* Keep gap consistent */
     }
 }
 
@@ -836,7 +914,7 @@ body.light-mode .container {
 }
 
 body.light-mode h1 {
-    color: #881337; /* Deep Maroon */
+    color: var(--text-primary); /* Deep Maroon */
     text-shadow: none;
     -webkit-text-fill-color: initial;
     filter: none;
@@ -904,7 +982,8 @@ body.light-mode .modal-content {
 }
 
 body.light-mode .modal-title {
-    color: #881337;
+    color: transparent;
+    text-shadow: 0 0 0 #881337; /* Force Maroon Emoji */
 }
 
 body.light-mode .wish-input {
