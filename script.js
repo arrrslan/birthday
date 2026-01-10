@@ -3,9 +3,9 @@
         // --------------------------------------------------------------
         
         // DEFAULT VALUES
-        const defaultDate = "January 16, 2027";
+        const defaultDate = "January 16, 2026";
         const defaultTime = "00:00:00"; 
-        const defaultName = "My Birthday";
+        const defaultName = "It's not just a countdown";
         const defaultCele = "It's my Birthday";
 
         // Load from LocalStorage or use Default
@@ -999,3 +999,4 @@
                  }, 200);
              }
         });
+
