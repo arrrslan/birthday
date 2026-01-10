@@ -27,6 +27,12 @@
 
         // Combine date and time
         const targetDate = new Date(`${eventDate} ${eventTime}`).getTime();
+
+        // Theme Persistence Init
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-mode');
+        }
         
 
 
@@ -454,6 +460,9 @@
         function showToast(message, type = 'default') {
             const container = document.getElementById('toastContainer');
             
+            // Prevent Stacking: Clear existing toasts
+            container.innerHTML = '';
+            
             // Create toast element
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -681,11 +690,61 @@
         });
 
         // --- Maximize Button Logic ---
+        // --- Maximize Button Logic (Updated for Long Press Light Mode) ---
         const maximizeBtn = document.getElementById('maximizeBtn');
         const maximizeIcon = maximizeBtn.querySelector('i');
+        
+        let pressTimer;
+        let isLongPress = false;
+        
+        const startPress = () => {
+             isLongPress = false;
+             pressTimer = setTimeout(() => {
+                 isLongPress = true;
+                 document.body.classList.toggle('light-mode');
+                 
+                 // Save Preference
+                 const isLight = document.body.classList.contains('light-mode');
+                 localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                 
+                 // Haptic Feedback
+                 if (navigator.vibrate) navigator.vibrate(50);
+                 
+                 // Visual Feedback
+                 showToast(isLight ? "Light Mode" : "Dark Mode", "default");
+             }, 800); 
+        };
+        
+        const cancelPress = () => {
+             if (pressTimer) clearTimeout(pressTimer);
+             // Note: We do NOT reset isLongPress here, because 'click' needs to read it.
+        };
+        
+        maximizeBtn.addEventListener('mousedown', startPress);
+        maximizeBtn.addEventListener('touchstart', (e) => {
+            // e.preventDefault(); // Do not prevent default, we want click to fire
+            startPress();
+        }, {passive: true});
+        
+        maximizeBtn.addEventListener('mouseup', cancelPress);
+        maximizeBtn.addEventListener('mouseleave', () => {
+            cancelPress();
+            isLongPress = false; // Reset if dragged away, assuming click won't fire or should be normal
+        });
+        maximizeBtn.addEventListener('touchend', cancelPress);
+        maximizeBtn.addEventListener('touchcancel', () => {
+            cancelPress();
+            isLongPress = false; 
+        });
 
         maximizeBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent tilt card click event
+            e.stopPropagation(); 
+            
+            if (isLongPress) {
+                isLongPress = false; 
+                return;
+            }
+            
             document.body.classList.toggle('maximize-mode');
             
             const isMax = document.body.classList.contains('maximize-mode');
