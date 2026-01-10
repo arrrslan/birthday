@@ -3,7 +3,7 @@
         // --------------------------------------------------------------
         
         // DEFAULT VALUES
-        const defaultDate = "January 16, 2026";
+        const defaultDate = "January 16, 2027";
         const defaultTime = "00:00:00"; 
         const defaultName = "My Birthday";
         const defaultCele = "It's my Birthday";
